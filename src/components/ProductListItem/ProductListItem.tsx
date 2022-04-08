@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from "../../app/hooks"
 import { addItemToCart } from "../../slices/cartSlice"
 
-type ProductProps = {
+type ProductListItemProps = {
   product: any
 }
 
-const Product = ({ product }: ProductProps) => { 
+const ProductListItem = ({ product }: ProductListItemProps) => { 
   const dispatch = useAppDispatch();
   
   const handleAddToCart = React.useCallback(() => {
     dispatch(addItemToCart({
       count: 1,
-      ...product
+      product: product
     }))
-  }, [addItemToCart])
+  }, [addItemToCart, product])
 
   return (
     <div className="col mb-5">
@@ -29,7 +29,7 @@ const Product = ({ product }: ProductProps) => {
         </div>
         <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
           <div className="text-center">
-            <button className="btn btn-outline-dark mt-auto" onClick={handleAddToCart}>Add to cart</button>
+            <button type="button" className="btn btn-outline-dark mt-auto" onClick={handleAddToCart}>Add to cart</button>
           </div>
         </div>
       </div>
@@ -37,4 +37,4 @@ const Product = ({ product }: ProductProps) => {
   )
 }
 
-export default Product;
+export default ProductListItem;

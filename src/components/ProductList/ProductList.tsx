@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { productsSelector, fetchProducts } from "../../slices/productsSlice"
-import Product from "../Product";
+import Product from "../ProductListItem";
 
 const ProductList = () => {
   const dispatch = useAppDispatch();
