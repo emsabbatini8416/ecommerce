@@ -1,6 +1,6 @@
 import React from "react"
-import { useAppDispatch } from "../../app/hooks"
-import { removeItemFromCart } from "../../slices/cartSlice"
+import { useAppDispatch } from "../../../app/hooks"
+import { removeFromCart } from "../../../slices/cartSlice"
 
 type CartListItemProps = {
   itemId: number;
@@ -13,8 +13,8 @@ const CartListItem = ({ itemId, count, product }: CartListItemProps) => {
   
   const handleOnRemove = React.useCallback((e: any) => {
     e.preventDefault();
-    dispatch(removeItemFromCart({ itemId }))
-  }, [itemId, dispatch, removeItemFromCart])
+    dispatch(removeFromCart({ itemId }))
+  }, [itemId, dispatch])
 
   return (
     <tr>
@@ -22,16 +22,16 @@ const CartListItem = ({ itemId, count, product }: CartListItemProps) => {
         <div className="p-2">
           <img src={product?.image} alt="" width="70" className="img-fluid rounded shadow-sm" />
           <div className="ms-3 d-inline-block align-middle">
-            <h5 className="mb-0"> <a href="#" className="text-dark d-inline-block align-middle">{product?.title}</a></h5>
+            <h5 className="mb-0">{product?.title}</h5>
           </div>
         </div>
       </th>
       <td className="border-0 align-middle"><strong>{`USD ${product?.price}`}</strong></td>
       <td className="border-0 align-middle"><strong>{count}</strong></td>
       <td className="border-0 align-middle">
-        <a href="#" className="text-dark" onClick={handleOnRemove}>
+        <span className="text-dark" onClick={handleOnRemove}>
           <i className="bi bi-trash"></i>
-        </a>
+        </span>
       </td>
     </tr> 
   )

@@ -1,12 +1,16 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import productsReducer from '../slices/productsSlice';
-import cartReducer from '../slices/cartSlice';
+import cartReducer, { initialState }  from '../slices/cartSlice';
+import { loadCart } from './browser-storage';
 
 export const store = configureStore({
   reducer: {
     products: productsReducer,
     cart: cartReducer
   },
+  preloadedState: {
+    cart: loadCart() || initialState
+  }
 });
 
 export type AppDispatch = typeof store.dispatch;

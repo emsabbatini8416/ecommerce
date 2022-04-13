@@ -1,14 +1,16 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import ProductsPage from '../containers/Products';
-import ProductDetailPage from '../containers/ProductDetails';
-import CartPage from '../containers/Cart';
+import ProductsContainer from '../containers/ProductsContainer';
+import ProductDetailContainer from '../containers/ProductDetailsContainer';
+import CartContainer from '../containers/CartContainer'
+import CheckoutContainer from '../containers/CheckoutContainer';
 
 const routes = [
-  { component: ProductsPage, exact: true, path: '/products' },
-  { component: ProductDetailPage, exact: true, path: '/products/:id' },
-  { component: CartPage, exact: true, path: '/cart' },
+  { component: ProductsContainer, exact: true, path: '/products' },
+  { component: ProductDetailContainer, exact: true, path: '/products/:id' },
+  { component: CartContainer, exact: true, path: '/cart' },
+  { component: CheckoutContainer, exact: true, path: '/checkout' },
 ];
 
 export function Routes() {

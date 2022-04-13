@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from "../../app/hooks"
-import { addItemToCart } from "../../slices/cartSlice"
+import { useAppDispatch } from "../../../app/hooks"
+import { addToCart } from "../../../slices/cartSlice"
 
 type ProductListItemProps = {
   product: any
@@ -11,11 +11,11 @@ const ProductListItem = ({ product }: ProductListItemProps) => {
   const dispatch = useAppDispatch();
   
   const handleAddToCart = React.useCallback(() => {
-    dispatch(addItemToCart({
+    dispatch(addToCart({
       count: 1,
       product: product
     }))
-  }, [addItemToCart, product])
+  }, [product, dispatch])
 
   return (
     <div className="col mb-5">

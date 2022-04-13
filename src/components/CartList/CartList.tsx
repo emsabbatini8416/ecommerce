@@ -2,7 +2,7 @@ import React from "react";
 import { useAppSelector } from "../../app/hooks"
 import { cartSelector } from "../../slices/cartSlice"
 
-import CartListItem from "../CartListItem";
+import CartListItem from "./CartListItem";
 
 const CardList = () => {
   const { items } = useAppSelector(cartSelector);

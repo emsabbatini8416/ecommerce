@@ -1,14 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { RootState } from "../app/store"
+import { RootState, AppDispatch } from "../app/store"
+
+const TAX_VALUE = 1.07;
 
 export type CartState = {
-  countItems: number;
   items: any[];
+  countItems: number;
+  tax: number;
+  shipping: number;
+  subTotal: number;
+  total: number;
 }
 
 export const initialState: CartState = {
+  items: [],
   countItems: 0,
-  items: []
+  tax: 0,
+  shipping: 9.99,
+  subTotal: 0,
+  total: 0
 }
 
 const cartSlice = createSlice({
@@ -23,24 +33,53 @@ const cartSlice = createSlice({
         product: action.payload.product
       })
       state.items = items;
-      state.countItems = items.reduce((acc, curr) => acc + curr.count, 0)
     }, 
     removeItemFromCart: (state, action: PayloadAction<{itemId: number}>) => {
       const { items } = state;
       const itemIndex = items.findIndex(i => i.itemId === action.payload.itemId)
       items.splice(itemIndex, 1);
       state.items = items;
-      state.countItems = items.reduce((acc, curr) => acc + curr.count, 0)
+    },
+    calculate: (state) => {
+      const { items } = state;
+      const values = items.reduce((acc, curr) => {
+        acc.count = acc.count + curr.count;
+        acc.subTotal = acc.subTotal + (curr.count + curr.product.price)
+        return acc
+      }, {
+        count: 0,
+        subTotal: 0
+      })
+      state.countItems = values.count;
+      state.subTotal = values.subTotal;
+      state.tax = parseFloat(((values.subTotal + state.shipping) * TAX_VALUE).toFixed(2));
+      state.total = values.subTotal + state.shipping + state.tax;
+    },
+    clear: (state) => {
+      state = {...initialState}
     }
   }
 })
 
 export const {
   addItemToCart,
-  removeItemFromCart
+  removeItemFromCart,
+  calculate,
+  clear
 } = cartSlice.actions
 
 export const cartSelector = (state: RootState) => state.cart;
 
 const cartReducer = cartSlice.reducer;
 export default cartReducer;
+
+
+export const addToCart = (payload: { count: number, product: any } ) => async (dispatch: AppDispatch) => {
+  dispatch(addItemToCart(payload))
+  dispatch(calculate())
+}
+
+export const removeFromCart = (payload: { itemId: number }) => async (dispatch: AppDispatch) => {
+  dispatch(removeItemFromCart(payload))
+  dispatch(calculate())
+}
